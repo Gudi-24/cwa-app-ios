@@ -79,11 +79,14 @@ final class OTPService: OTPServiceProviding {
 	}
 	
 	func getOTPEls(ppacToken: PPACToken, completion: @escaping (Result<String, OTPError>) -> Void) {
-		if let otpToken = store.otpTokenEls {
-			Log.info("Existing OTP ELS was requested.", log: .otp)
-			completion(.success(otpToken.token))
-			return
-		}
+//		if let otpToken = store.otpTokenEls,
+//		   let expirationDate = otpToken.expirationDate,
+//		   expirationDate > Date(),
+//		   store.otpElsAuthorizationDate == nil {
+//			Log.info("Existing OTP ELS was not comsumed before and can be used again or submission.", log: .otp)
+//			completion(.success(otpToken.token))
+//			return
+//		}
 		Log.info("NO existing OTP ELS was found. Generating new one.", log: .otp)
 		let otp = generateOTPToken()
 		authorizeEls(otp, with: ppacToken, completion: completion)
